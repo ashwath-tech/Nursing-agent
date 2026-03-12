@@ -30,7 +30,7 @@ if prompt := st.chat_input("What is in this document?"):
 
     with st.chat_message("assistant"):
         with st.spinner("Searching and generating..."):
-            res = requests.post(f"http://127.0.0.1:8000/question/?user_question={prompt}")
+            res = requests.post(f"http://127.0.0.1:8000/question/?user_query={prompt}")
             answer = res.json().get("response", "Error connecting to AI.")
             st.markdown(answer)
             st.session_state.messages.append({"role": "assistant", "content": answer})
