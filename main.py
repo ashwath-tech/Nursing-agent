@@ -40,14 +40,16 @@ You have 2 tools:
 1. all_details - Log patient information. 
 2. send_question - Answer any nursing or medical related queries.
 3. emergency_object - If the user specifies that the case is an emergency, this tool is used to save the patient details
+4. dosage_object - To find the dosage of any medicine
 
 TOOL USAGE RULES:
 1. Use all_details when the user provides patient information to be logged.
 2. Use send_question for ANY medical, medication, or hospital guideline related question.
 3. Never answer medical questions from your own knowledge. Always use send_question.
 4. Never call all_details if any of these required fields are missing: name, age, gender. Ask the user for them first.Use M for Male and F for Female
-5. Never hallucinate or fill in patient details that were not explicitly provided.
-6. If the user gives a query that is not related to the medical field, You must refuse to answer it.
+5. Never call dosage_object if any of these fields are missing: name_of_medicine, weight_in_kg. Ask the user for them first.
+6. Never hallucinate or fill in patient details that were not explicitly provided.
+7. If the user gives a query that is not related to the medical field, You must refuse to answer it.
 
 BEHAVIOR RULES:
 1. Be concise and professional. This is a clinical environment.
@@ -56,8 +58,42 @@ BEHAVIOR RULES:
 4. Never make assumptions about the patient's condition or details.
 5. After successfully logging, confirm to the user what was logged.
 '''
-history = deque([],maxlen=10)
+history = deque([],maxlen=15)
 
+# ----------------Dosage tool -------------------
+try:
+    with open("dosages.json", "r") as f:
+        DOSAGE_REGISTRY: Dict = json.load(f)
+except FileNotFoundError:
+    DOSAGE_REGISTRY = {}
+
+class dosage_object(BaseModel):
+    name_of_medicine: str = Field(..., description="Generic name of the drug")
+    weight_in_kg: float = Field(..., gt=0, lt=500, description="Patient weight in kg")
+
+async def get_dosage(request: dosage_object):
+    name = request.name_of_medicine.lower().strip()
+    weight = request.weight_in_kg
+    
+    med_data = DOSAGE_REGISTRY.get(name)
+
+    if not med_data:
+        history.append({"role":"assistant","content":f"Error: Medication '{name}' not found in the verified registry."})
+
+        return f"Error: Medication '{name}' not found in the verified registry."
+    
+    calculated_dose = weight * med_data["rate_per_kg"]
+    max_dose = med_data["max"]
+    unit = med_data["unit"]
+
+    if calculated_dose > max_dose:
+        history.append({"role":"assistant","content":f"CRITICAL: Calculated dose ({calculated_dose}{unit}) exceeds the safety limit of {max_dose}{unit} for {name}"})
+
+        return f"CRITICAL: Calculated dose ({calculated_dose}{unit}) exceeds the safety limit of {max_dose}{unit} for {name}"
+
+    history.append({"role":"assistant","content":f"The calculated dosage for {name} is {calculated_dose}{unit}."})
+
+    return f"The calculated dosage for {name} is {calculated_dose}{unit}."
 
 # -------------Log vitals --------------
 class BloodPressure(BaseModel):
@@ -90,11 +126,11 @@ class emergency_object(BaseModel):
     patient_name: str
     reason: str
 
-async def emergency_tool(emergency_object):
-    emergency_message = {"name": patient_name, "reason": reason}
+async def emergency_tool(details: emergency_object):
+    emergency_message = {"name": details.patient_name, "reason": details.reason}
 
     with open("emergency.jsonl","a") as f:
-        f.write(json.dumps(emergency_message)) + "\n"
+        f.write(json.dumps(emergency_message) + "\n")
 
     return "Emergency file updated"
 
@@ -136,7 +172,7 @@ async def send_question(user_question: str):
     message = [
         system_message,
     ]
-    message.extend(history)
+    message.extend(history[:-1])
     message.append(
         {"role":"user", "content":f'''Context: {formatted_context}
         Question: {search_query}
@@ -152,7 +188,8 @@ async def send_question(user_question: str):
 available_tools = {
     "all_details": log_vitals, 
     "send_question": send_question,
-    "emergency_object": emergency_tool
+    "emergency_object": emergency_tool,
+    "dosage_object": get_dosage
 }
 
 query_rewriting_prompt = '''You are an query rewriter in a nursing environment.
@@ -188,10 +225,10 @@ async def send_query(user_query: str):
     if len(history) > 0:
         rewriting_user_prompt = "Chat History:"
         for i in range(len(history)):
-            if i % 2 == 0:
+            if history[i]['role'] == "user":
                 rewriting_user_prompt += f"User: {history[i]['content']}"
             else:
-                rewriting_user_prompt += f"Assistent: {history[i]['content']}"
+                rewriting_user_prompt += f"Assistant: {history[i]['content']}"
         rewriting_user_prompt += f"user query: {user_query}"
 
         reply = gemini.chat.completions.create(
@@ -218,7 +255,8 @@ async def send_query(user_query: str):
         tools = [
             openai.pydantic_function_tool(all_details),
             tool_RAG,
-            openai.pydantic_function_tool(emergency_object)
+            openai.pydantic_function_tool(emergency_object),
+            openai.pydantic_function_tool(dosage_object)
         ]
     )
 
@@ -237,9 +275,13 @@ async def send_query(user_query: str):
             
             elif tool_name == "emergency_object":
                 result = await function_to_call(emergency_object(**json.loads(arguments)))
-
+            
+            elif tool_name == "dosage_object":
+                result = await function_to_call(dosage_object(**json.loads(arguments)))
+            
             else:
-                return {"response": f"Tool '{tool_name}' is not implemented yet."}
+                result = f"Tool '{tool_name}' is not implemented yet."
+                history.append({"role":"assistant","content":result})
                 
             return {"response": result}
     else:
