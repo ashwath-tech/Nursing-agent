@@ -1,0 +1,242 @@
+{
+  "epinephrine": {
+    "rate_per_kg": 0.01,
+    "max": 1,
+    "unit": "mg",
+    "notes": "Cardiac arrest / anaphylaxis."
+  },
+  "furosemide": {
+    "rate_per_kg": 1.0,
+    "max": 80,
+    "unit": "mg",
+    "notes": "Loop diuretic; monitor potassium."
+  },
+  "lorazepam": {
+    "rate_per_kg": 0.05,
+    "max": 4,
+    "unit": "mg",
+    "notes": "Benzodiazepine; status epilepticus or severe anxiety."
+  },
+  "naloxone": {
+    "rate_per_kg": 0.01,
+    "max": 2,
+    "unit": "mg",
+    "notes": "Opioid antagonist/reversal agent."
+  },
+  "flumazenil": {
+    "rate_per_kg": 0.01,
+    "max": 1,
+    "unit": "mg",
+    "notes": "Benzodiazepine reversal agent."
+  },
+  "methylprednisolone": {
+    "rate_per_kg": 2.0,
+    "max": 125,
+    "unit": "mg",
+    "notes": "Corticosteroid; acute asthma or inflammation."
+  },
+  "dexamethasone": {
+    "rate_per_kg": 0.6,
+    "max": 16,
+    "unit": "mg",
+    "notes": "Long-acting corticosteroid."
+  },
+  "ketorolac": {
+    "rate_per_kg": 0.5,
+    "max": 30,
+    "unit": "mg",
+    "notes": "NSAID; limit use to 5 days max."
+  },
+  "ibuprofen": {
+    "rate_per_kg": 10.0,
+    "max": 800,
+    "unit": "mg",
+    "notes": "NSAID antipyretic/analgesic."
+  },
+  "diphenhydramine": {
+    "rate_per_kg": 1.0,
+    "max": 50,
+    "unit": "mg",
+    "notes": "Antihistamine; allergic reactions."
+  },
+  "phenytoin": {
+    "rate_per_kg": 15.0,
+    "max": 1000,
+    "unit": "mg",
+    "notes": "Anticonvulsant loading dose; infuse slowly."
+  },
+  "levetiracetam": {
+    "rate_per_kg": 20.0,
+    "max": 3000,
+    "unit": "mg",
+    "notes": "Anticonvulsant."
+  },
+  "magnesium_sulfate": {
+    "rate_per_kg": 25.0,
+    "max": 2000,
+    "unit": "mg",
+    "notes": "Electrolyte replacement / severe asthma."
+  },
+  "calcium_gluconate": {
+    "rate_per_kg": 50.0,
+    "max": 3000,
+    "unit": "mg",
+    "notes": "Electrolyte replacement / hyperkalemia."
+  },
+  "clindamycin": {
+    "rate_per_kg": 10.0,
+    "max": 900,
+    "unit": "mg",
+    "notes": "Lincosamide antibiotic."
+  },
+  "piperacillin_tazobactam": {
+    "rate_per_kg": 75.0,
+    "max": 4500,
+    "unit": "mg",
+    "notes": "Broad-spectrum penicillin antibiotic."
+  },
+  "azithromycin": {
+    "rate_per_kg": 10.0,
+    "max": 500,
+    "unit": "mg",
+    "notes": "Macrolide antibiotic."
+  },
+  "gentamicin": {
+    "rate_per_kg": 5.0,
+    "max": 500,
+    "unit": "mg",
+    "notes": "Aminoglycoside; requires peak/trough monitoring."
+  },
+  "fluconazole": {
+    "rate_per_kg": 6.0,
+    "max": 800,
+    "unit": "mg",
+    "notes": "Antifungal."
+  },
+  "acyclovir": {
+    "rate_per_kg": 10.0,
+    "max": 800,
+    "unit": "mg",
+    "notes": "Antiviral; ensure adequate hydration."
+  },
+  "propofol": {
+    "rate_per_kg": 0.5,
+    "max": 200,
+    "unit": "mg",
+    "notes": "Induction dose; general anesthetic."
+  },
+  "fentanyl": {
+    "rate_per_kg": 1.5,
+    "max": 250,
+    "unit": "mcg",
+    "notes": "Analgesic; synthetic opioid."
+  },
+  "ketamine": {
+    "rate_per_kg": 1.0,
+    "max": 100,
+    "unit": "mg",
+    "notes": "Dissociative anesthetic."
+  },
+  "midazolam": {
+    "rate_per_kg": 0.05,
+    "max": 5,
+    "unit": "mg",
+    "notes": "Benzodiazepine; pre-procedure sedation."
+  },
+  "rocuronium": {
+    "rate_per_kg": 0.6,
+    "max": 100,
+    "unit": "mg",
+    "notes": "Paralytic; neuromuscular blocker."
+  },
+  "succinylcholine": {
+    "rate_per_kg": 1.0,
+    "max": 150,
+    "unit": "mg",
+    "notes": "Depolarizing neuromuscular blocker."
+  },
+  "amiodarone": {
+    "rate_per_kg": 5.0,
+    "max": 300,
+    "unit": "mg",
+    "notes": "Antiarrhythmic; for ventricular fibrillation."
+  },
+  "lidocaine": {
+    "rate_per_kg": 1.0,
+    "max": 100,
+    "unit": "mg",
+    "notes": "Antiarrhythmic/Local anesthetic."
+  },
+  "dexmedetomidine": {
+    "rate_per_kg": 1.0,
+    "max": 100,
+    "unit": "mcg",
+    "notes": "Alpha-2 agonist; ICU sedation."
+  },
+  "morphine": {
+    "rate_per_kg": 0.1,
+    "max": 10,
+    "unit": "mg",
+    "notes": "Opioid analgesic."
+  },
+  "hydromorphone": {
+    "rate_per_kg": 0.015,
+    "max": 2,
+    "unit": "mg",
+    "notes": "Opioid analgesic; much stronger than morphine."
+  },
+  "ondansetron": {
+    "rate_per_kg": 0.1,
+    "max": 8,
+    "unit": "mg",
+    "notes": "Antiemetic; nausea prevention."
+  },
+  "metoclopramide": {
+    "rate_per_kg": 0.15,
+    "max": 10,
+    "unit": "mg",
+    "notes": "Prokinetic and antiemetic."
+  },
+  "famotidine": {
+    "rate_per_kg": 0.5,
+    "max": 40,
+    "unit": "mg",
+    "notes": "H2 blocker; ulcer prophylaxis."
+  },
+  "pantoprazole": {
+    "rate_per_kg": 0.5,
+    "max": 40,
+    "unit": "mg",
+    "notes": "Proton pump inhibitor."
+  },
+  "heparin": {
+    "rate_per_kg": 80.0,
+    "max": 10000,
+    "unit": "units",
+    "notes": "Anticoagulant; initial bolus dose."
+  },
+  "enoxaparin": {
+    "rate_per_kg": 1.0,
+    "max": 150,
+    "unit": "mg",
+    "notes": "Low molecular weight heparin."
+  },
+  "ceftriaxone": {
+    "rate_per_kg": 50.0,
+    "max": 2000,
+    "unit": "mg",
+    "notes": "Cephalosporin antibiotic."
+  },
+  "vancomycin": {
+    "rate_per_kg": 15.0,
+    "max": 2000,
+    "unit": "mg",
+    "notes": "Glycopeptide antibiotic; monitor troughs."
+  },
+  "acetaminophen": {
+    "rate_per_kg": 15.0,
+    "max": 1000,
+    "unit": "mg",
+    "notes": "Antipyretic/Analgesic."
+  }
+}
