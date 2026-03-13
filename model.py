@@ -34,7 +34,7 @@ class NanoVectorDB:
 
     self.allchunks.extend(format_chunks)
 
-    if len(self.vectorized_chunks) == 0:
+    if self.vectorized_chunks is None or self.vectorized_chunks.size == 0: 
       self.vectorized_chunks = self.model.encode(text_chunks)
     else:
       self.vectorized_chunks = np.vstack([self.vectorized_chunks, self.model.encode(text_chunks)])
